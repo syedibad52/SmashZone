@@ -36,7 +36,7 @@ This project UI and structure were enhanced with the help of:
 
 - Claude AI
 - ChatGPT
-
+- it was live here: https://smash-zone-one.vercel.app/
 ---
 
 ## 📂 Project Structure
@@ -49,4 +49,3 @@ SmashZone/
 └── All CSS and JavaScript implemented inside HTML only
 
 
-- it was live here: https://smash-zone-one.vercel.app/
