@@ -47,3 +47,6 @@ SmashZone/
 ├── index.html
 │
 └── All CSS and JavaScript implemented inside HTML only
+
+
+- it was live here: https://smash-zone-one.vercel.app/
