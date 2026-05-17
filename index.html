@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SmashZone — Badminton & Fitness</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --green: #1D9E75;
+    --green-dark: #085041;
+    --green-light: #E1F5EE;
+    --green-mid: #0F6E56;
+    --amber: #EF9F27;
+    --amber-light: #FAEEDA;
+    --amber-dark: #412402;
+    --text: #1a1a18;
+    --text-muted: #5F5E5A;
+    --text-faint: #888780;
+    --border: rgba(0,0,0,0.08);
+    --bg: #fafaf8;
+    --white: #ffffff;
+    --surface: #f4f3ef;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.6;
+  }
+
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(250,250,248,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 0.5px solid var(--border);
+    padding: 0 5%;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 60px;
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px; font-weight: 600;
+    color: var(--green-dark);
+    letter-spacing: 0.03em;
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--amber); }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    font-size: 13px; font-weight: 400;
+    color: var(--text-muted); text-decoration: none;
+    letter-spacing: 0.02em;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--green-dark); }
+  .nav-cta {
+    background: var(--green-dark); color: #fff;
+    font-size: 13px; padding: 8px 18px;
+    border-radius: 20px; text-decoration: none;
+    letter-spacing: 0.03em; transition: background 0.2s;
+  }
+  .nav-cta:hover { background: var(--green-mid); }
+
+  .hero {
+    min-height: 90vh;
+    display: grid; grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 5rem 5%;
+    gap: 4rem;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .hero-left { max-width: 540px; }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--green); margin-bottom: 1.5rem;
+  }
+  .hero-eyebrow::before {
+    content: ''; width: 24px; height: 1px; background: var(--green);
+  }
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(52px, 7vw, 88px);
+    font-weight: 500; line-height: 0.95;
+    letter-spacing: -0.02em;
+    color: var(--green-dark);
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 em { font-style: italic; color: var(--amber); }
+  .hero-desc {
+    font-size: 16px; color: var(--text-muted);
+    max-width: 400px; line-height: 1.75;
+    margin-bottom: 2.5rem;
+  }
+  .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--green-dark); color: #fff;
+    padding: 12px 28px; border-radius: 30px;
+    font-size: 14px; text-decoration: none;
+    letter-spacing: 0.03em; transition: background 0.2s;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: var(--green-mid); }
+  .btn-outline {
+    border: 1px solid var(--border);
+    color: var(--text-muted); padding: 12px 28px;
+    border-radius: 30px; font-size: 14px;
+    text-decoration: none; transition: border-color 0.2s, color 0.2s;
+    display: inline-block;
+  }
+  .btn-outline:hover { border-color: var(--green); color: var(--green-dark); }
+
+  .hero-right {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .hero-stat-card {
+    background: var(--white); border: 0.5px solid var(--border);
+    border-radius: 16px; padding: 1.5rem;
+    transition: border-color 0.2s;
+  }
+  .hero-stat-card:hover { border-color: var(--green); }
+  .hero-stat-card:first-child {
+    grid-column: span 2; background: var(--green-dark);
+  }
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 48px; font-weight: 500;
+    color: var(--green-dark); line-height: 1;
+    margin-bottom: 6px;
+  }
+  .hero-stat-card:first-child .stat-num { color: var(--amber); font-size: 56px; }
+  .stat-lbl { font-size: 13px; color: var(--text-muted); }
+  .hero-stat-card:first-child .stat-lbl { color: rgba(255,255,255,0.6); }
+  .stat-sub { font-size: 11px; color: var(--text-faint); margin-top: 4px; }
+  .hero-stat-card:first-child .stat-sub { color: rgba(255,255,255,0.4); }
+
+  section { padding: 5rem 5%; border-bottom: 0.5px solid var(--border); }
+  .sec-eyebrow {
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--green); margin-bottom: 0.75rem;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .sec-eyebrow::before { content: ''; width: 20px; height: 1px; background: var(--green); }
+  .sec-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(32px, 4vw, 52px);
+    font-weight: 500; line-height: 1.05;
+    color: var(--green-dark); margin-bottom: 1rem;
+    letter-spacing: -0.01em;
+  }
+  .sec-desc {
+    font-size: 15px; color: var(--text-muted);
+    max-width: 520px; line-height: 1.75;
+    margin-bottom: 3rem;
+  }
+
+  .cal-layout {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 3rem; align-items: start;
+  }
+  .weight-toggle {
+    display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 1.5rem;
+  }
+  .wt-btn {
+    font-size: 12px; padding: 6px 16px;
+    border-radius: 20px; border: 0.5px solid var(--border);
+    background: transparent; color: var(--text-muted);
+    cursor: pointer; transition: all 0.15s; font-family: inherit;
+  }
+  .wt-btn.active, .wt-btn:hover {
+    background: var(--green-dark); color: #fff; border-color: var(--green-dark);
+  }
+  .cal-list { display: flex; flex-direction: column; gap: 2px; }
+  .cal-item {
+    display: flex; align-items: center;
+    padding: 14px 0; border-bottom: 0.5px solid var(--border);
+  }
+  .cal-item:last-child { border-bottom: none; }
+  .cal-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--green); margin-right: 12px; flex-shrink: 0;
+  }
+  .cal-name { font-size: 14px; color: var(--text); flex: 1; }
+  .cal-bar-wrap {
+    width: 100px; height: 4px;
+    background: var(--surface); border-radius: 2px;
+    overflow: hidden; margin: 0 16px;
+  }
+  .cal-bar { height: 100%; background: var(--green); border-radius: 2px; transition: width 0.4s ease; }
+  .cal-num { font-size: 14px; font-weight: 500; color: var(--green-dark); min-width: 60px; text-align: right; }
+
+  .cal-right-panel { display: flex; flex-direction: column; gap: 12px; }
+  .cal-highlight {
+    background: var(--green-dark); border-radius: 16px; padding: 2rem;
+    color: #fff;
+  }
+  .cal-highlight .big { font-family: 'Cormorant Garamond', serif; font-size: 64px; font-weight: 500; color: var(--amber); line-height: 1; }
+  .cal-highlight .desc { font-size: 13px; opacity: 0.65; margin-top: 6px; }
+  .intensity-card {
+    background: var(--white); border: 0.5px solid var(--border);
+    border-radius: 16px; padding: 1.5rem;
+  }
+  .int-row { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+  .int-row:last-child { margin-bottom: 0; }
+  .int-label { font-size: 12px; color: var(--text-muted); min-width: 90px; }
+  .int-track { flex: 1; height: 6px; background: var(--surface); border-radius: 3px; overflow: hidden; }
+  .int-fill { height: 100%; border-radius: 3px; }
+  .int-kcal { font-size: 12px; font-weight: 500; color: var(--green-dark); min-width: 80px; text-align: right; }
+
+  .benefits-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .benefit-card {
+    background: var(--white); border: 0.5px solid var(--border);
+    border-radius: 16px; padding: 1.75rem;
+    transition: border-color 0.2s;
+  }
+  .benefit-card:hover { border-color: var(--green); }
+  .benefit-card:nth-child(1) { background: var(--green-dark); }
+  .benefit-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px; font-weight: 400;
+    color: var(--text-faint); margin-bottom: 1.5rem;
+  }
+  .benefit-card:nth-child(1) .benefit-num { color: rgba(255,255,255,0.3); }
+  .benefit-icon-wrap {
+    width: 40px; height: 40px; border-radius: 10px;
+    background: var(--green-light);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 1rem;
+    font-size: 20px; color: var(--green-dark);
+  }
+  .benefit-card:nth-child(1) .benefit-icon-wrap { background: rgba(255,255,255,0.1); color: var(--amber); }
+  .benefit-title { font-size: 15px; font-weight: 500; margin-bottom: 6px; color: var(--green-dark); }
+  .benefit-card:nth-child(1) .benefit-title { color: #fff; }
+  .benefit-text { font-size: 13px; color: var(--text-muted); line-height: 1.65; }
+  .benefit-card:nth-child(1) .benefit-text { color: rgba(255,255,255,0.55); }
+
+  .muscles-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
+  .muscle-diagram {
+    background: var(--surface); border-radius: 20px; padding: 2.5rem;
+    display: flex; flex-direction: column; gap: 16px;
+  }
+  .muscle-row {
+    display: flex; align-items: center; gap: 14px;
+    padding: 14px 16px; background: var(--white);
+    border-radius: 12px; border: 0.5px solid var(--border);
+    transition: border-color 0.2s;
+  }
+  .muscle-row:hover { border-color: var(--green); }
+  .muscle-icon { font-size: 20px; color: var(--green); width: 32px; text-align: center; flex-shrink: 0; }
+  .muscle-name { font-size: 14px; font-weight: 500; color: var(--green-dark); flex: 1; }
+  .muscle-detail { font-size: 12px; color: var(--text-faint); }
+  .muscle-meter { width: 60px; height: 4px; background: var(--surface); border-radius: 2px; overflow: hidden; }
+  .muscle-fill { height: 100%; background: var(--green); border-radius: 2px; }
+
+  .muscles-right { display: flex; flex-direction: column; gap: 20px; }
+  .fact-card {
+    background: var(--white); border: 0.5px solid var(--border);
+    border-radius: 16px; padding: 1.5rem;
+  }
+  .fact-card.accent { background: var(--amber-light); border-color: #FAC775; }
+  .fact-label {
+    font-size: 11px; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--green); margin-bottom: 10px;
+  }
+  .fact-card.accent .fact-label { color: #854F0B; }
+  .fact-text { font-size: 14px; color: var(--text); line-height: 1.7; }
+  .fact-card.accent .fact-text { color: #633806; }
+
+  .howto-steps { display: flex; flex-direction: column; gap: 0; }
+  .step-row {
+    display: grid; grid-template-columns: 64px 1fr;
+    gap: 2rem; padding: 2rem 0;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .step-row:last-child { border-bottom: none; }
+  .step-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 40px; font-weight: 500;
+    color: var(--green-light); line-height: 1;
+    padding-top: 4px;
+  }
+  .step-title { font-size: 18px; font-weight: 500; color: var(--green-dark); margin-bottom: 8px; }
+  .step-desc { font-size: 14px; color: var(--text-muted); line-height: 1.75; max-width: 560px; }
+  .step-tag {
+    display: inline-block; margin-top: 10px;
+    font-size: 11px; padding: 4px 12px; border-radius: 20px;
+    background: var(--green-light); color: #085041;
+    font-weight: 500; letter-spacing: 0.05em;
+  }
+
+  .tips-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .tip-card {
+    background: var(--white); border: 0.5px solid var(--border);
+    border-radius: 16px; padding: 1.5rem;
+    display: flex; gap: 14px;
+  }
+  .tip-icon-box {
+    width: 36px; height: 36px; border-radius: 10px;
+    background: var(--green-light); flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; color: var(--green-dark);
+  }
+  .tip-title { font-size: 14px; font-weight: 500; color: var(--green-dark); margin-bottom: 4px; }
+  .tip-desc { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+
+  .equipment-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 1rem; }
+  .eq-card {
+    background: var(--white); border: 0.5px solid var(--border);
+    border-radius: 16px; padding: 1.5rem;
+    text-align: center; transition: border-color 0.2s;
+  }
+  .eq-card:hover { border-color: var(--green); }
+  .eq-icon { font-size: 28px; color: var(--green); margin-bottom: 12px; display: block; }
+  .eq-name { font-size: 14px; font-weight: 500; color: var(--green-dark); margin-bottom: 4px; }
+  .eq-desc { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+
+  .tracker-wrap {
+    background: var(--white); border: 0.5px solid var(--border);
+    border-radius: 20px; padding: 2.5rem; max-width: 680px; margin: 0 auto;
+  }
+  .tracker-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 1.5rem; }
+  .tc-group label { font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 6px; }
+  .tc-group select, .tc-group input {
+    width: 100%; padding: 10px 14px; border-radius: 10px;
+    border: 0.5px solid var(--border); font-size: 14px;
+    background: var(--bg); font-family: inherit; color: var(--text);
+    outline: none; transition: border-color 0.2s;
+  }
+  .tc-group select:focus, .tc-group input:focus { border-color: var(--green); }
+  .tracker-result {
+    background: var(--green-dark); border-radius: 14px;
+    padding: 1.5rem; display: grid; grid-template-columns: repeat(3,1fr);
+    gap: 1rem; text-align: center;
+  }
+  .tr-val { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 500; color: var(--amber); line-height: 1; }
+  .tr-lbl { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 4px; letter-spacing: 0.05em; text-transform: uppercase; }
+
+  .cta-section {
+    background: var(--green-dark);
+    text-align: center; padding: 6rem 5%;
+    border-bottom: none;
+  }
+  .cta-section .sec-eyebrow { justify-content: center; color: rgba(255,255,255,0.4); }
+  .cta-section .sec-eyebrow::before { background: rgba(255,255,255,0.3); }
+  .cta-section .sec-title { color: #fff; margin: 0 auto 1rem; }
+  .cta-section .sec-desc { color: rgba(255,255,255,0.55); margin: 0 auto 2.5rem; }
+  .cta-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .btn-amber {
+    background: var(--amber); color: var(--amber-dark);
+    padding: 14px 32px; border-radius: 30px; font-size: 14px;
+    text-decoration: none; font-weight: 500; transition: opacity 0.2s;
+    display: inline-block;
+  }
+  .btn-amber:hover { opacity: 0.9; }
+  .btn-ghost {
+    border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.7);
+    padding: 14px 32px; border-radius: 30px; font-size: 14px;
+    text-decoration: none; transition: border-color 0.2s, color 0.2s;
+    display: inline-block;
+  }
+  .btn-ghost:hover { border-color: rgba(255,255,255,0.5); color: #fff; }
+
+  footer {
+    padding: 2.5rem 5%; display: flex;
+    justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 1rem;
+    border-top: 0.5px solid var(--border);
+  }
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px; font-weight: 600; color: var(--green-dark);
+    text-decoration: none;
+  }
+  .footer-logo span { color: var(--amber); }
+  .footer-links { display: flex; gap: 1.5rem; list-style: none; }
+  .footer-links a { font-size: 13px; color: var(--text-faint); text-decoration: none; }
+  .footer-copy { font-size: 12px; color: var(--text-faint); }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; min-height: auto; padding: 3rem 5%; }
+    .cal-layout, .muscles-layout { grid-template-columns: 1fr; }
+    .benefits-grid { grid-template-columns: 1fr 1fr; }
+    .equipment-grid { grid-template-columns: 1fr 1fr; }
+    .tips-grid { grid-template-columns: 1fr; }
+    .tracker-controls { grid-template-columns: 1fr; }
+    nav .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">Smash<span>Zone</span></a>
+  <ul class="nav-links">
+    <li><a href="#calories">Calories</a></li>
+    <li><a href="#benefits">Benefits</a></li>
+    <li><a href="#howto">How to play</a></li>
+    <li><a href="#muscles">Muscles</a></li>
+    <li><a href="#tracker">Tracker</a></li>
+  </ul>
+  <a href="#tracker" class="nav-cta">Track my burn</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">Badminton &amp; fitness</div>
+    <h1>Play hard.<br><em>Live well.</em></h1>
+    <p class="hero-desc">SmashZone is your complete guide to badminton — from mastering your first serve to understanding exactly how your favourite sport transforms your body.</p>
+    <div class="hero-actions">
+      <a href="#howto" class="btn-primary">Start playing</a>
+      <a href="#calories" class="btn-outline">See calorie burn</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-stat-card">
+      <div class="stat-num">700+</div>
+      <div class="stat-lbl">Calories burned per hour</div>
+      <div class="stat-sub">Competitive singles match</div>
+    </div>
+    <div class="hero-stat-card">
+      <div class="stat-num">9 km</div>
+      <div class="stat-lbl">Average distance covered</div>
+      <div class="stat-sub">Per match</div>
+    </div>
+    <div class="hero-stat-card">
+      <div class="stat-num">493</div>
+      <div class="stat-lbl">Direction changes</div>
+      <div class="stat-sub">Typical singles match</div>
+    </div>
+  </div>
+</section>
+
+<section id="calories">
+  <div class="sec-eyebrow">Calorie burn</div>
+  <h2 class="sec-title">How much do you burn?</h2>
+  <p class="sec-desc">Your calorie burn depends on body weight, play style, and intensity. Select your weight to see personalised estimates.</p>
+  <div class="cal-layout">
+    <div>
+      <div class="weight-toggle">
+        <button class="wt-btn active" data-kg="55">55 kg</button>
+        <button class="wt-btn" data-kg="65">65 kg</button>
+        <button class="wt-btn" data-kg="75">75 kg</button>
+        <button class="wt-btn" data-kg="85">85 kg</button>
+      </div>
+      <div class="cal-list" id="calList"></div>
+    </div>
+    <div class="cal-right-panel">
+      <div class="cal-highlight">
+        <div class="big" id="peakCal">640</div>
+        <div style="font-size:14px;color:#fff;margin-top:8px">peak kcal/hr</div>
+        <div class="desc">Competitive singles at <span id="peakKg">55</span> kg body weight</div>
+      </div>
+      <div class="intensity-card">
+        <div style="font-size:12px;font-weight:500;color:var(--green-dark);margin-bottom:14px;letter-spacing:0.06em;text-transform:uppercase">Intensity levels</div>
+        <div class="int-row">
+          <span class="int-label">Casual</span>
+          <div class="int-track"><div class="int-fill" style="width:45%;background:#9FE1CB"></div></div>
+          <span class="int-kcal">280–380 kcal</span>
+        </div>
+        <div class="int-row">
+          <span class="int-label">Club level</span>
+          <div class="int-track"><div class="int-fill" style="width:68%;background:#1D9E75"></div></div>
+          <span class="int-kcal">420–550 kcal</span>
+        </div>
+        <div class="int-row">
+          <span class="int-label">Competitive</span>
+          <div class="int-track"><div class="int-fill" style="width:95%;background:#085041"></div></div>
+          <span class="int-kcal">580–750 kcal</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="benefits">
+  <div class="sec-eyebrow">Health benefits</div>
+  <h2 class="sec-title">Your body on badminton</h2>
+  <p class="sec-desc">Six major health gains from playing regularly — backed by sports science.</p>
+  <div class="benefits-grid">
+    <div class="benefit-card">
+      <div class="benefit-num">01</div>
+      <div class="benefit-icon-wrap"><i class="ti ti-heart-rate-monitor" aria-hidden="true"></i></div>
+      <div class="benefit-title">Cardiovascular health</div>
+      <div class="benefit-text">Sustained aerobic effort strengthens your heart muscle, lowers resting heart rate, and reduces risk of hypertension over time.</div>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-num">02</div>
+      <div class="benefit-icon-wrap"><i class="ti ti-flame" aria-hidden="true"></i></div>
+      <div class="benefit-title">Fat loss & metabolism</div>
+      <div class="benefit-text">High-intensity intervals spike your metabolic rate. Post-match calorie burn continues for hours after you leave the court.</div>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-num">03</div>
+      <div class="benefit-icon-wrap"><i class="ti ti-brain" aria-hidden="true"></i></div>
+      <div class="benefit-title">Mental sharpness</div>
+      <div class="benefit-text">Rapid tactical decisions and split-second reflexes improve cognitive function, reaction time, and spatial awareness.</div>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-num">04</div>
+      <div class="benefit-icon-wrap"><i class="ti ti-bone" aria-hidden="true"></i></div>
+      <div class="benefit-title">Bone density</div>
+      <div class="benefit-text">Weight-bearing lateral movement and impact landings stimulate bone remodelling, helping prevent osteoporosis long-term.</div>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-num">05</div>
+      <div class="benefit-icon-wrap"><i class="ti ti-mood-smile" aria-hidden="true"></i></div>
+      <div class="benefit-title">Mood & stress relief</div>
+      <div class="benefit-text">Endorphin and dopamine release during play significantly reduce cortisol levels, combating anxiety and depression.</div>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-num">06</div>
+      <div class="benefit-icon-wrap"><i class="ti ti-users" aria-hidden="true"></i></div>
+      <div class="benefit-title">Social wellbeing</div>
+      <div class="benefit-text">Doubles play and club culture build meaningful friendships, accountability, and a sense of belonging that solo gym work rarely provides.</div>
+    </div>
+  </div>
+</section>
+
+<section id="howto">
+  <div class="sec-eyebrow">Getting started</div>
+  <h2 class="sec-title">How to play badminton</h2>
+  <p class="sec-desc">Whether you've never held a racket or want to sharpen your technique — here's the essential guide.</p>
+  <div class="howto-steps">
+    <div class="step-row">
+      <div class="step-num">01</div>
+      <div class="step-content">
+        <div class="step-title">Learn the basic grip</div>
+        <div class="step-desc">Hold the racket like a handshake — the handle rests diagonally across your palm. Your thumb sits flat on the wider face of the handle for backhand shots. Avoid gripping too tightly; a relaxed grip generates more wrist snap and power.</div>
+        <span class="step-tag">Foundation skill</span>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">02</div>
+      <div class="step-content">
+        <div class="step-title">Master the serve</div>
+        <div class="step-desc">The low serve is your first weapon — hold the shuttle at waist height and gently push it over the net, landing near the front service line. Vary with a high serve (a lofted shot to the back court) to keep opponents guessing.</div>
+        <span class="step-tag">Beginner priority</span>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">03</div>
+      <div class="step-content">
+        <div class="step-title">Understand court movement</div>
+        <div class="step-desc">Return to the centre of the court ("base position") after every shot. Use split-step footwork — a small hop just as your opponent contacts the shuttle — to react instantly in any direction.</div>
+        <span class="step-tag">Movement</span>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">04</div>
+      <div class="step-content">
+        <div class="step-title">Build your shot repertoire</div>
+        <div class="step-desc">Clear (deep lob), drop shot (soft near net), drive (flat and fast), and smash (steep downward power shot). Start by mastering the clear and drop before attempting the smash.</div>
+        <span class="step-tag">Shot craft</span>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">05</div>
+      <div class="step-content">
+        <div class="step-title">Know the scoring rules</div>
+        <div class="step-desc">Matches are best of 3 games, each played to 21 points (win by 2, capped at 30–29). A point is scored on every rally. If tied at 20, the first to gain a 2-point lead wins.</div>
+        <span class="step-tag">Rules</span>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">06</div>
+      <div class="step-content">
+        <div class="step-title">Warm up and cool down</div>
+        <div class="step-desc">Spend 5–10 minutes on dynamic stretches — leg swings, arm circles, and light jogging — before play. After, static stretches for calves, hamstrings, shoulder, and wrist help prevent injury.</div>
+        <span class="step-tag">Injury prevention</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="muscles">
+  <div class="sec-eyebrow">Muscle activation</div>
+  <h2 class="sec-title">What gets worked</h2>
+  <p class="sec-desc">Badminton is a full-body sport. Here's a breakdown of which muscle groups take the most load.</p>
+  <div class="muscles-layout">
+    <div class="muscle-diagram">
+      <div class="muscle-row">
+        <span class="muscle-icon"><i class="ti ti-arm" aria-hidden="true"></i></span>
+        <div>
+          <div class="muscle-name">Shoulder &amp; rotator cuff</div>
+          <div class="muscle-detail">Overhead shots, clears, smashes</div>
+        </div>
+        <div class="muscle-meter"><div class="muscle-fill" style="width:90%"></div></div>
+      </div>
+      <div class="muscle-row">
+        <span class="muscle-icon"><i class="ti ti-hand-stop" aria-hidden="true"></i></span>
+        <div>
+          <div class="muscle-name">Forearm &amp; wrist</div>
+          <div class="muscle-detail">Wrist snap on all shots</div>
+        </div>
+        <div class="muscle-meter"><div class="muscle-fill" style="width:85%"></div></div>
+      </div>
+      <div class="muscle-row">
+        <span class="muscle-icon"><i class="ti ti-body-scan" aria-hidden="true"></i></span>
+        <div>
+          <div class="muscle-name">Core &amp; obliques</div>
+          <div class="muscle-detail">Rotation, balance, lunging</div>
+        </div>
+        <div class="muscle-meter"><div class="muscle-fill" style="width:80%"></div></div>
+      </div>
+      <div class="muscle-row">
+        <span class="muscle-icon"><i class="ti ti-run" aria-hidden="true"></i></span>
+        <div>
+          <div class="muscle-name">Quadriceps</div>
+          <div class="muscle-detail">Lunge recovery, explosive push-off</div>
+        </div>
+        <div class="muscle-meter"><div class="muscle-fill" style="width:88%"></div></div>
+      </div>
+      <div class="muscle-row">
+        <span class="muscle-icon"><i class="ti ti-arrows-up-down" aria-hidden="true"></i></span>
+        <div>
+          <div class="muscle-name">Hamstrings &amp; glutes</div>
+          <div class="muscle-detail">Lateral movement, direction change</div>
+        </div>
+        <div class="muscle-meter"><div class="muscle-fill" style="width:75%"></div></div>
+      </div>
+      <div class="muscle-row">
+        <span class="muscle-icon"><i class="ti ti-shoe" aria-hidden="true"></i></span>
+        <div>
+          <div class="muscle-name">Calves &amp; ankles</div>
+          <div class="muscle-detail">Footwork, split-steps, jumping</div>
+        </div>
+        <div class="muscle-meter"><div class="muscle-fill" style="width:70%"></div></div>
+      </div>
+    </div>
+    <div class="muscles-right">
+      <div class="fact-card accent">
+        <div class="fact-label">Match fact</div>
+        <div class="fact-text">During a competitive match, a badminton player can cover 6–9 km and change direction over 400 times — placing extraordinary demands on both aerobic and anaerobic energy systems simultaneously.</div>
+      </div>
+      <div class="fact-card">
+        <div class="fact-label">Training tip</div>
+        <div class="fact-text">To prevent the most common injury (shoulder impingement), add 3×15 reps of external rotation exercises with a resistance band to your off-court routine. Strong rotator cuffs also add power to your smash.</div>
+      </div>
+      <div class="fact-card">
+        <div class="fact-label">Recovery</div>
+        <div class="fact-text">Allow 24–48 hours between intense sessions. Prioritise protein intake within 30 minutes post-match and foam-roll your calves and IT band to maintain the mobility needed for court movement.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-eyebrow">Pro tips</div>
+  <h2 class="sec-title">Level up your game</h2>
+  <p class="sec-desc">Eight actionable tips that separate improving players from beginners.</p>
+  <div class="tips-grid">
+    <div class="tip-card">
+      <div class="tip-icon-box"><i class="ti ti-target" aria-hidden="true"></i></div>
+      <div><div class="tip-title">Aim for the corners</div><div class="tip-desc">Placing shots in the four corners forces your opponent to cover maximum distance and opens up gaps in the court.</div></div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon-box"><i class="ti ti-eye" aria-hidden="true"></i></div>
+      <div><div class="tip-title">Watch the shuttle, not the opponent</div><div class="tip-desc">Keep your eyes on the shuttle from the moment it leaves the racket until you make contact. Tracking early improves timing.</div></div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon-box"><i class="ti ti-wind" aria-hidden="true"></i></div>
+      <div><div class="tip-title">Use deception</div><div class="tip-desc">Prepare identically for a smash and a drop shot. Late wrist changes fool opponents who've already committed to moving.</div></div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon-box"><i class="ti ti-battery-charging" aria-hidden="true"></i></div>
+      <div><div class="tip-title">Manage your energy</div><div class="tip-desc">Don't sprint to every shuttle early in the match. Efficient footwork conserves energy for the crucial final sets.</div></div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon-box"><i class="ti ti-arrows-diagonal" aria-hidden="true"></i></div>
+      <div><div class="tip-title">Play cross-court more</div><div class="tip-desc">The cross-court diagonal is the longest shot on the court — harder to reach and covers your opponent with more ground to defend.</div></div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon-box"><i class="ti ti-clock" aria-hidden="true"></i></div>
+      <div><div class="tip-title">Control the tempo</div><div class="tip-desc">If you're tired, slow the game down with high clears. If winning, speed up with fast drives to prevent your opponent resetting.</div></div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon-box"><i class="ti ti-chart-line" aria-hidden="true"></i></div>
+      <div><div class="tip-title">Track your weak side</div><div class="tip-desc">Most players have a weaker backhand. Deliberately practice backhand clears and drops until the gap narrows.</div></div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon-box"><i class="ti ti-droplet" aria-hidden="true"></i></div>
+      <div><div class="tip-title">Hydrate between games</div><div class="tip-desc">Even mild dehydration (2% body weight) reduces reaction speed and coordination. Sip water or an electrolyte drink in the changeover.</div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-eyebrow">Equipment</div>
+  <h2 class="sec-title">What you need to start</h2>
+  <p class="sec-desc">Badminton is one of the most accessible sports — you only need a few essentials to get on court.</p>
+  <div class="equipment-grid">
+    <div class="eq-card">
+      <span class="eq-icon"><i class="ti ti-tennis" aria-hidden="true"></i></span>
+      <div class="eq-name">Racket</div>
+      <div class="eq-desc">Start with a medium-flex, lightweight racket (85–90g). Upgrade to isometric head shape once you're consistent.</div>
+    </div>
+    <div class="eq-card">
+      <span class="eq-icon"><i class="ti ti-circle" aria-hidden="true"></i></span>
+      <div class="eq-name">Shuttlecocks</div>
+      <div class="eq-desc">Nylon for beginners and recreational play. Feather shuttles for club level and above — they fly truer.</div>
+    </div>
+    <div class="eq-card">
+      <span class="eq-icon"><i class="ti ti-shoe" aria-hidden="true"></i></span>
+      <div class="eq-name">Court shoes</div>
+      <div class="eq-desc">Non-marking soles with lateral support. Never play in running shoes — they lack the ankle support for side-to-side movement.</div>
+    </div>
+    <div class="eq-card">
+      <span class="eq-icon"><i class="ti ti-hand-grab" aria-hidden="true"></i></span>
+      <div class="eq-name">Grip tape</div>
+      <div class="eq-desc">Replace your overgrip every 8–10 hours of play. A tacky grip prevents the racket from slipping and reduces wrist strain.</div>
+    </div>
+  </div>
+</section>
+
+<section id="tracker">
+  <div class="sec-eyebrow">Calorie tracker</div>
+  <h2 class="sec-title">Calculate your burn</h2>
+  <p class="sec-desc">Enter your details to get a personalised estimate of your session's calorie burn.</p>
+  <div class="tracker-wrap">
+    <div class="tracker-controls">
+      <div class="tc-group">
+        <label>Body weight (kg)</label>
+        <input type="number" id="tWeight" value="65" min="40" max="150" step="1">
+      </div>
+      <div class="tc-group">
+        <label>Duration (minutes)</label>
+        <input type="number" id="tDuration" value="60" min="15" max="180" step="5">
+      </div>
+      <div class="tc-group">
+        <label>Play style</label>
+        <select id="tStyle">
+          <option value="4.5">Casual doubles</option>
+          <option value="5.5">Recreational singles</option>
+          <option value="7.0" selected>Club-level singles</option>
+          <option value="8.5">Competitive match</option>
+          <option value="9.5">Intense drilling</option>
+        </select>
+      </div>
+      <div class="tc-group">
+        <label>Gender (adjusts estimate)</label>
+        <select id="tGender">
+          <option value="1">Male</option>
+          <option value="0.9">Female</option>
+        </select>
+      </div>
+    </div>
+    <div class="tracker-result">
+      <div>
+        <div class="tr-val" id="trKcal">455</div>
+        <div class="tr-lbl">Calories burned</div>
+      </div>
+      <div>
+        <div class="tr-val" id="trPerMin">7.6</div>
+        <div class="tr-lbl">Kcal per minute</div>
+      </div>
+      <div>
+        <div class="tr-val" id="trSteps">~5,200</div>
+        <div class="tr-lbl">Estimated steps</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="sec-eyebrow">Get started</div>
+  <h2 class="sec-title">Ready to hit the court?</h2>
+  <p class="sec-desc">Three sessions a week is all it takes to see measurable improvements in your fitness, reflexes, and on-court confidence within a month.</p>
+  <div class="cta-btns">
+    <a href="#howto" class="btn-amber">Learn to play</a>
+    <a href="#tracker" class="btn-ghost">Track a session</a>
+  </div>
+</section>
+
+<footer>
+  <a href="#" class="footer-logo">Smash<span>Zone</span></a>
+  <ul class="footer-links">
+    <li><a href="#calories">Calories</a></li>
+    <li><a href="#benefits">Benefits</a></li>
+    <li><a href="#howto">How to play</a></li>
+    <li><a href="#tracker">Tracker</a></li>
+  </ul>
+  <span class="footer-copy">© 2026 SmashZone. Made with passion for the sport.</span>
+</footer>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+
+<script>
+const calData = [
+  { name: 'Casual doubles', met: 4.5 },
+  { name: 'Recreational singles', met: 5.5 },
+  { name: 'Club-level singles', met: 7.0 },
+  { name: 'Competitive match', met: 8.5 },
+  { name: 'Intense drilling', met: 9.5 },
+];
+
+function renderCal(kg) {
+  const list = document.getElementById('calList');
+  const vals = calData.map(d => ({ name: d.name, kcal: Math.round(d.met * 0.0175 * kg * 60) }));
+  const max = Math.max(...vals.map(v => v.kcal));
+  list.innerHTML = vals.map(v => `
+    <div class="cal-item">
+      <div class="cal-dot"></div>
+      <span class="cal-name">${v.name}</span>
+      <div class="cal-bar-wrap"><div class="cal-bar" style="width:${Math.round(v.kcal/max*100)}%"></div></div>
+      <span class="cal-num">${v.kcal} kcal</span>
+    </div>`).join('');
+  document.getElementById('peakCal').textContent = vals[vals.length-1].kcal;
+  document.getElementById('peakKg').textContent = kg;
+}
+
+document.querySelectorAll('.wt-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.wt-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderCal(+btn.dataset.kg);
+  });
+});
+renderCal(55);
+
+function updateTracker() {
+  const kg = +document.getElementById('tWeight').value || 65;
+  const mins = +document.getElementById('tDuration').value || 60;
+  const met = +document.getElementById('tStyle').value;
+  const gender = +document.getElementById('tGender').value;
+  const kcal = Math.round(met * 0.0175 * kg * mins * gender);
+  const perMin = (kcal / mins).toFixed(1);
+  const steps = Math.round(mins * (met > 7 ? 105 : 85));
+  document.getElementById('trKcal').textContent = kcal;
+  document.getElementById('trPerMin').textContent = perMin;
+  document.getElementById('trSteps').textContent = '~' + steps.toLocaleString();
+}
+['tWeight','tDuration','tStyle','tGender'].forEach(id => {
+  document.getElementById(id).addEventListener('input', updateTracker);
+});
+updateTracker();
+</script>
+</body>
+</html>
